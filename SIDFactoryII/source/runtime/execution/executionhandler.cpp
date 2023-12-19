@@ -11,6 +11,7 @@
 #include "foundation/platform/imutex.h"
 #include "foundation/platform/iplatform.h"
 #include "runtime/emulation/asid/asid.h"
+#include "libraries/rtmidi/RtMidi.h"
 
 #include "utils/configfile.h"
 #include "utils/logging.h"
