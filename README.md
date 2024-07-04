@@ -53,6 +53,10 @@ release](https://img.shields.io/github/commits-since/chordian/sidfactory2/releas
   for setting the limits of rastertime usage used to color frames orange or red in
   the flightrecorder.
   `Visualizer.CPU.Medium.Rasterlines` and `Visualizer.CPU.High.Rasterlines`
+- Added: [#28](https://github.com/Chordian/sidfactory2/issues/28) ASID support!
+  Use real hardware that supports the ASID protocol (for example the TherapSID)
+- Added: Config option `Playback.ASID.MidiInterface` to select the MIDI
+  interface for ASID playback
 
 ### Build 20231002
 
