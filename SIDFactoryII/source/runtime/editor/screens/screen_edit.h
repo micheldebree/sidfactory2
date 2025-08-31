@@ -86,6 +86,7 @@ namespace Editor
 			std::function<void(void)> inRequestSaveInstrumentCallback,
 			std::function<void(void)> inQuickSaveCallback,
 			std::function<void(unsigned short, unsigned char)> inPackCallback,
+			std::function<void()> inToggleFullScreen,
 			std::function<void(unsigned int)> inConfigReload);
 		virtual ~ScreenEdit();
 
@@ -185,6 +186,7 @@ namespace Editor
 		std::function<void(void)> m_SaveInstrumentRequestCallback;
 		std::function<void(void)> m_QuickSaveCallback;
 		std::function<void(unsigned short, unsigned char)> m_PackCallback;
+		std::function<void(void)> m_ToggleFullScreen;
 		std::function<void(unsigned int)> m_ConfigReconfigure;
 
 		// Dynamic key codes

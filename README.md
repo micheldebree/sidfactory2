@@ -52,6 +52,9 @@ release](https://img.shields.io/github/commits-since/chordian/sidfactory2/releas
   for setting the limits of rastertime usage used to color frames orange or red in
   the flightrecorder.
   `Visualizer.CPU.Medium.Rasterlines` and `Visualizer.CPU.High.Rasterlines`
+- Added: [#183](https://github.com/Chordian/sidfactory2/issues/183) Toggle fullscreen with ALT-Enter
+- Added: [#183](https://github.com/Chordian/sidfactory2/issues/183) Config option `Window.FullScreen`
+  to start in fullscreen by default
 
 ### Build 20231002
 

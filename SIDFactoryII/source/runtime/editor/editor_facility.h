@@ -64,8 +64,10 @@ namespace Editor
 
 		void OnWindowResized();
 
-	private:
+	  private:
 		void Reconfigure(unsigned int inReconfigureOption);
+		void ApplyFullScreenSetting(bool isFullScreen);
+		void ToggleFullScreen();
 
 		void RequestScreen(ScreenBase* inRequestedScreen);
 		void ForceRequestScreen(ScreenBase* inRequestedScreen);
@@ -105,6 +107,7 @@ namespace Editor
 		std::vector<std::shared_ptr<ConverterBase>> GetConverters() const;
 
 		bool m_IsDone;
+		bool m_IsFullScreen;
 
 		int m_ColorSchemeCount;
 		int m_SelectedColorScheme;
