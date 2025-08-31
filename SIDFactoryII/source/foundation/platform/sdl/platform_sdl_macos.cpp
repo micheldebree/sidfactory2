@@ -136,12 +136,6 @@ namespace Foundation
 	}
 
 
-	std::string PlatformSDLMacOS::Storage_GetOverlaysHomePath() const
-	{
-		return GetResourcePath("overlay");
-	}
-
-
 	std::string PlatformSDLMacOS::Storage_GetColorSchemesHomePath() const
 	{
 		return GetResourcePath("color_schemes");

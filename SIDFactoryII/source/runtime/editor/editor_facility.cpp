@@ -17,7 +17,6 @@
 #include "runtime/editor/driver/driver_utils.h"
 #include "runtime/editor/editor_types.h"
 #include "runtime/editor/keys/keyhook_setup.h"
-#include "runtime/editor/overlay_control.h"
 #include "runtime/editor/packer/packer.h"
 #include "runtime/editor/screens/screen_base.h"
 #include "runtime/editor/screens/screen_convert.h"
@@ -67,7 +66,6 @@ namespace Editor
 		, m_IsDone(false)
 		, m_CurrentScreen(nullptr)
 		, m_RequestedScreen(nullptr)
-		, m_FlipOverlayState(false)
 		, m_SelectedColorScheme(0)
 	{
 
@@ -139,9 +137,6 @@ namespace Editor
 		// Allocate empty Driver Info class
 		m_DriverInfo = std::make_shared<DriverInfo>();
 
-		// Create overlay control
-		m_OverlayControl = std::make_unique<OverlayControl>(inViewport);
-
 		// Create screens
 		m_IntroScreen = std::make_unique<ScreenIntro>(
 			m_Viewport,
@@ -195,7 +190,6 @@ namespace Editor
 			[&]() {	m_DiskScreen->SetMode(ScreenDisk::SaveInstrument); m_DiskScreen->SetSuggestedFileName(m_LastSF2PathAndFilename);  RequestScreen(m_DiskScreen.get()); },
 			[&]() { OnQuickSave(m_EditScreen.get()); },
 			[&](unsigned short inDestinationAddress, unsigned char inFirstZeroPage) { OnPack(m_EditScreen.get(), inDestinationAddress, inFirstZeroPage); },
-			[&]() { m_FlipOverlayState = true; },
 			[&](unsigned int inReconfigureOption) { Reconfigure(inReconfigureOption); });
 
 		//
@@ -316,11 +310,6 @@ namespace Editor
 			m_CurrentScreen->Update(inDeltaTicks);
 		}
 
-		// Handle overlay flip
-		UpdateOverlayEnableDisable();
-
-		// Update overlay
-		m_OverlayControl->Update(inDeltaTicks);
 
 		// Update cursor control
 		m_CursorControl.Update(inDeltaTicks);
@@ -368,7 +357,7 @@ namespace Editor
 
 	void EditorFacility::OnWindowResized()
 	{
-		m_OverlayControl->OnWindowResized();
+    	// TODO: does nothing
 	}
 
 
@@ -427,19 +416,6 @@ namespace Editor
 			ForceRequestScreen(m_EditScreen.get());
 		}
 	}
-
-
-	void EditorFacility::UpdateOverlayEnableDisable()
-	{
-		if (m_FlipOverlayState)
-		{
-			FOUNDATION_ASSERT(m_OverlayControl != nullptr);
-			m_OverlayControl->SetOverlayEnabled(!m_OverlayControl->GetOverlayEnabled());
-
-			m_FlipOverlayState = false;
-		}
-	}
-
 
 	//------------------------------------------------------------------------------------------------------------
 
@@ -553,8 +529,6 @@ namespace Editor
 				// Flush copy/paste
 				CopyPaste::Instance().Flush();
 
-				// Notify overlay
-				m_OverlayControl->OnChange(*m_DriverInfo);
 			}
 
 			delete[] static_cast<char*>(data);
@@ -648,9 +622,6 @@ namespace Editor
 
 					// Flush copy/paste
 					CopyPaste::Instance().Flush();
-
-					// Notify overlay
-					m_OverlayControl->OnChange(*m_DriverInfo);
 
 					inSuccesfullConversionAction();
 					return;
@@ -922,8 +893,6 @@ namespace Editor
 				// Flush copy/paste
 				CopyPaste::Instance().Flush();
 
-				// Notify overlay
-				m_OverlayControl->OnChange(*m_DriverInfo);
 
 				return true;
 			}

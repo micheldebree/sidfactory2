@@ -89,7 +89,6 @@ namespace Editor
 		std::function<void(void)> inRequestSaveInstrumentCallback,
 		std::function<void(void)> inQuickSaveCallback,
 		std::function<void(unsigned short, unsigned char)> inPackCallback,
-		std::function<void(void)> inToggleShowOverlay,
 		std::function<void(unsigned int)> inReconfigure)
 		: ScreenBase(inViewport, inMainTextField, inCursorControl, inDisplayState, inKeyHookStore)
 		, m_EditState(inEditState)
@@ -108,7 +107,6 @@ namespace Editor
 		, m_SaveInstrumentRequestCallback(inRequestSaveInstrumentCallback)
 		, m_QuickSaveCallback(inQuickSaveCallback)
 		, m_PackCallback(inPackCallback)
-		, m_ToggleShowOverlay(inToggleShowOverlay)
 		, m_ConfigReconfigure(inReconfigure)
 		, m_PlayTimerTicks(0)
 		, m_PlayTimerSeconds(0)
@@ -182,7 +180,7 @@ namespace Editor
 		const auto SIDWriteInfoList = DriverUtils::GetSIDWriteInformationFromDriver(*m_CPUMemory, *m_DriverInfo);
 
 		for(const auto& SIDWriteInfo : SIDWriteInfoList)
-			Utility::Logging::instance().Info("Write to address $d4%02x at cycle offset: %02x", SIDWriteInfo.m_AddressLow, SIDWriteInfo.m_CycleOffset); 
+			Utility::Logging::instance().Info("Write to address $d4%02x at cycle offset: %02x", SIDWriteInfo.m_AddressLow, SIDWriteInfo.m_CycleOffset);
 
 		// Create debug views
 		m_DebugViews = std::make_unique<DebugViews>(m_Viewport, &*m_ComponentsManager, m_CPUMemory, m_MainTextField->GetDimensions(), m_DriverInfo);
@@ -1472,7 +1470,7 @@ namespace Editor
 
 				if(m_EditState.IsFollowPlayMode() && is_playing)
 					return;
-				
+
 				if(InHasFocus)
 				{
 					this->ShowSequenceUsageCount(InSequenceIndex);
@@ -1855,13 +1853,6 @@ namespace Editor
 			return true;
 		} });
 
-		m_KeyHooks.push_back({ "Key.ScreenEdit.ToggleOverlay", m_KeyHookStore, [&]()
-		{
-			m_ToggleShowOverlay();
-
-			return true;
-		} });
-
 		m_KeyHooks.push_back({ "Key.ScreenEdit.OctaveDown", m_KeyHookStore, [&]()
 		{
 			DoOctaveChange(false);
@@ -2180,10 +2171,9 @@ namespace Editor
 
 			const int usage_count = sequence_index_use_count[inSequenceIndex];
 			const bool usage_count_plural = usage_count > 1;
-			
+
 			const std::string text = " Sequence " + EditorUtils::ConvertToHexValue(inSequenceIndex, m_DisplayState.IsHexUppercase()) + " referenced " + std::to_string(sequence_index_use_count[inSequenceIndex]) + (usage_count_plural ? " times." : " time.");
 			SetStatusBarMessage(text, 5000);
 		}
 	}
 }
-

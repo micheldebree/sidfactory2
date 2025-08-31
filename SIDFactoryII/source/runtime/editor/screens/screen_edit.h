@@ -69,14 +69,14 @@ namespace Editor
 		static const unsigned char PulseFilterVisualizerID;
 
 		ScreenEdit(
-			Foundation::Viewport* inViewport, 
+			Foundation::Viewport* inViewport,
 			Foundation::TextField* inMainTextField,
-			CursorControl* inCursorControl, 
+			CursorControl* inCursorControl,
 			DisplayState& inDisplayState,
 			Utility::KeyHookStore& inKeyHookStore,
-			EditState& inEditState, 
-			Emulation::CPUMemory* inCPUMemory, 
-			Emulation::ExecutionHandler* inExecutionHandler, 
+			EditState& inEditState,
+			Emulation::CPUMemory* inCPUMemory,
+			Emulation::ExecutionHandler* inExecutionHandler,
 			Emulation::SIDProxy* inSIDProxy,
 			std::shared_ptr<DriverInfo>& inDriverInfo,
 			std::function<void(void)> inRequestLoadCallback,
@@ -86,7 +86,6 @@ namespace Editor
 			std::function<void(void)> inRequestSaveInstrumentCallback,
 			std::function<void(void)> inQuickSaveCallback,
 			std::function<void(unsigned short, unsigned char)> inPackCallback,
-			std::function<void(void)> inToggleShowOverlay,
 			std::function<void(unsigned int)> inConfigReload);
 		virtual ~ScreenEdit();
 
@@ -177,7 +176,7 @@ namespace Editor
 		void StartSongsDialogWithSelectionExecution(const std::string& headline, EXECUTION_CALLBACK&& inExecutionCallback);
 		template<typename EXECUTION_CALLBACK>
 		void StartMoveSongDialogWithSelectionExecution(const std::string& inCaption, EXECUTION_CALLBACK&& inExecutionCallback);
-		
+
 		// Load/save requests
 		std::function<void(void)> m_LoadRequestCallback;
 		std::function<void(void)> m_SaveRequestCallback;
@@ -186,7 +185,6 @@ namespace Editor
 		std::function<void(void)> m_SaveInstrumentRequestCallback;
 		std::function<void(void)> m_QuickSaveCallback;
 		std::function<void(unsigned short, unsigned char)> m_PackCallback;
-		std::function<void(void)> m_ToggleShowOverlay;
 		std::function<void(unsigned int)> m_ConfigReconfigure;
 
 		// Dynamic key codes
@@ -252,7 +250,7 @@ namespace Editor
 		int m_CurrentTrackDataIndex;
 		int m_CurrentTrackDataPackedSize;
 
-		// Playback 
+		// Playback
 		int m_LastPlaybackStartEventPos;
 		int m_PlaybackCurrentEventPos;
 		bool m_StopEmulationIfDriverStops;

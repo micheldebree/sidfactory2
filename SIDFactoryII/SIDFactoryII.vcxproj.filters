@@ -80,9 +80,6 @@
     <Filter Include="source\runtime\editor\visualizer_components">
       <UniqueIdentifier>{1e0476af-bbaf-4ac2-a58b-af4a40c912a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="source\runtime\editor\overlays">
-      <UniqueIdentifier>{7876dd66-9d36-43e1-b7c0-f0925664656a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="source\runtime\editor\optimize">
       <UniqueIdentifier>{792f7330-ee1a-4653-9b97-e227e9ec7d3e}</UniqueIdentifier>
     </Filter>
@@ -481,9 +478,6 @@
     </ClCompile>
     <ClCompile Include="source\utils\config\configutils.cpp">
       <Filter>source\utils\config</Filter>
-    </ClCompile>
-    <ClCompile Include="source\runtime\editor\overlay_control.cpp">
-      <Filter>source\runtime\editor</Filter>
     </ClCompile>
     <ClCompile Include="source\foundation\platform\platform_factory.cpp">
       <Filter>source\foundation\platform</Filter>
@@ -1020,9 +1014,6 @@
     </ClInclude>
     <ClInclude Include="source\utils\config\configutils.h">
       <Filter>source\utils\config</Filter>
-    </ClInclude>
-    <ClInclude Include="source\runtime\editor\overlay_control.h">
-      <Filter>source\runtime\editor</Filter>
     </ClInclude>
     <ClInclude Include="source\foundation\platform\platform_factory.h">
       <Filter>source\foundation\platform</Filter>

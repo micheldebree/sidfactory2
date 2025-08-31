@@ -100,7 +100,6 @@ $(APP): universal $(ICONS)
 	mkdir -p ${APP}/Contents/Resources/config
 	mv $(EXE) $(APP)/Contents/MacOS
 	cp -r $(PROJECT_ROOT)/drivers $(APP)/Contents/Resources
-	cp -r $(PROJECT_ROOT)/overlay $(APP)/Contents/Resources
 	cp -r $(PROJECT_ROOT)/color_schemes $(APP)/Contents/Resources
 	cp -r $(PROJECT_ROOT)/config.ini $(APP)/Contents/Resources/config/
 	mv $(ICONS) $(APP)/Contents/Resources

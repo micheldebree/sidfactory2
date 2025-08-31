@@ -17,7 +17,6 @@ Notable features:
   [Laxity](https://deepsid.chordian.net/?file=/MUSICIANS/L/Laxity) and
   [JCH](https://deepsid.chordian.net/?file=/MUSICIANS/J/JCH) ,
   optimized for use in demos and games on the Commodore 64.
-- A hotkey opens a surrounding overlay with help for both editor and driver.
 - Imports Goattracker, CheeseCutter and MOD files.
 - Supports both SID models 6581 and 8580 for PAL and NTSC.
 - Unlimited undo
