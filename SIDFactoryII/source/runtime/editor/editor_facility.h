@@ -5,7 +5,6 @@
 #include "runtime/editor/driver/driver_info.h"
 #include "runtime/editor/edit_state.h"
 #include "runtime/editor/keys/keyhook_setup.h"
-#include "runtime/editor/overlay_control.h"
 #include "utils/keyhookstore.h"
 #include <functional>
 #include <memory>
@@ -65,9 +64,10 @@ namespace Editor
 
 		void OnWindowResized();
 
-	private:
+	  private:
 		void Reconfigure(unsigned int inReconfigureOption);
-		void UpdateOverlayEnableDisable();
+		void ApplyFullScreenSetting(bool isFullScreen);
+		void ToggleFullScreen();
 
 		void RequestScreen(ScreenBase* inRequestedScreen);
 		void ForceRequestScreen(ScreenBase* inRequestedScreen);
@@ -107,7 +107,7 @@ namespace Editor
 		std::vector<std::shared_ptr<ConverterBase>> GetConverters() const;
 
 		bool m_IsDone;
-		bool m_FlipOverlayState;
+		bool m_IsFullScreen;
 
 		int m_ColorSchemeCount;
 		int m_SelectedColorScheme;
@@ -133,7 +133,6 @@ namespace Editor
 		ScreenBase* m_CurrentScreen;
 
 		std::shared_ptr<DriverInfo> m_DriverInfo;
-		std::unique_ptr<OverlayControl> m_OverlayControl;
 
 		std::string m_LastSF2PathAndFilename;
 

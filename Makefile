@@ -66,16 +66,12 @@ OBJ = $(SRC:.cpp=.o) $(SOURCE)/libraries/miniz/miniz.o
 # Compile SIDFactoryII
 $(EXE): $(OBJ) $(ARTIFACTS_FOLDER) \
 $(ARTIFACTS_FOLDER)/drivers \
-$(ARTIFACTS_FOLDER)/overlay \
 $(ARTIFACTS_FOLDER)/color_schemes \
 $(ARTIFACTS_FOLDER)/config/config.ini
 	$(CC) $(OBJ) $(LINKER_FLAGS) -o $(EXE)
 
 $(ARTIFACTS_FOLDER)/drivers: $(PROJECT_ROOT)/drivers
 	cp -r $(PROJECT_ROOT)/drivers $(ARTIFACTS_FOLDER)
-
-$(ARTIFACTS_FOLDER)/overlay: $(PROJECT_ROOT)/overlay
-	cp -r $(PROJECT_ROOT)/overlay $(ARTIFACTS_FOLDER)
 
 $(ARTIFACTS_FOLDER)/color_schemes: $(PROJECT_ROOT)/color_schemes
 	cp -r $(PROJECT_ROOT)/color_schemes $(ARTIFACTS_FOLDER)
@@ -93,7 +89,6 @@ dist: $(EXE) $(DIST_FOLDER)
 	mv $(EXE) $(DIST_FOLDER)
 	mkdir -p ${DIST_FOLDER}/config
 	mv $(ARTIFACTS_FOLDER)/drivers $(DIST_FOLDER)
-	mv $(ARTIFACTS_FOLDER)/overlay $(DIST_FOLDER)
 	mv $(ARTIFACTS_FOLDER)/color_schemes $(DIST_FOLDER)
 	mv $(ARTIFACTS_FOLDER)/config $(DIST_FOLDER)
 	cp -r $(PROJECT_ROOT)/music $(DIST_FOLDER)

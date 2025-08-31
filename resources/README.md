@@ -1,7 +1,5 @@
 # Things to do for a release build
 
-- Verify the overlays to make sure the latest changes are included in them
-- Make sure all overlays have small file sizes, otherwise run `optimize_all_overlays.bat`
 - Update `README.md` in the root with the latest changes so it's up-to-date with the latest build
 - Check `faq.txt` to see if it is needs updating or appending
 - Make sure any changes or additions to keys are added to the `notes.txt` too

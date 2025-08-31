@@ -1,0 +1,17 @@
+// Project tasks configuration. See https://zed.dev/docs/tasks for documentation.
+//
+// Example:
+[
+  {
+    "label": "Run macOS version",
+    "command": "make",
+    "args": ["PLATFORM=MACOS", "TARGET=DEBUG", "run"],
+    "tags": []
+  },
+  {
+    "label": "Clean",
+    "command": "make",
+    "args": ["clean"],
+    "tags": []
+  }
+]

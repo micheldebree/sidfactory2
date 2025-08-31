@@ -1,15 +1,14 @@
 #include "foundation/graphics/viewport.h"
+#include "SDL_video.h"
 #include "foundation/base/assert.h"
 #include "foundation/base/types.h"
 #include "foundation/graphics/drawfield.h"
 #include "foundation/graphics/image.h"
 #include "foundation/graphics/imanaged.h"
 #include "foundation/graphics/textfield.h"
-#include "resources/data_char.h"
 #include "utils/config/configtypes.h"
 #include "utils/configfile.h"
 #include "utils/global.h"
-#include <iostream>
 
 using namespace Utility;
 using namespace Utility::Config;
@@ -25,9 +24,7 @@ namespace Foundation
 		, m_Window(nullptr)
 		, m_Renderer(nullptr)
 		, m_RenderTarget(nullptr)
-		, m_ShowOverlay(false)
 		, m_Caption(inCaption)
-		, m_FadeValue(0.0f)
 	{
 		const int window_width = static_cast<int>(m_ClientResolutionX * m_Scaling);
 		const int window_height = static_cast<int>(m_ClientResolutionY * m_Scaling);
@@ -56,11 +53,6 @@ namespace Foundation
 
 		if (m_RenderTarget != nullptr)
 			SDL_DestroyTexture(m_RenderTarget);
-		for (auto overlay : m_OverlayList)
-		{
-			if (overlay.m_Texture != nullptr)
-				SDL_DestroyTexture(overlay.m_Texture);
-		}
 
 		SDL_DestroyRenderer(m_Renderer);
 		SDL_DestroyWindow(m_Window);
@@ -125,11 +117,6 @@ namespace Foundation
 	}
 
 
-	void Viewport::SetFadeValue(float inFadeValue)
-	{
-		m_FadeValue = inFadeValue;
-	}
-
 
 	void Viewport::SetAdditionTitleInfo(const std::string& inAdditionTitleInfo)
 	{
@@ -142,37 +129,13 @@ namespace Foundation
 		}
 	}
 
-
-	void Viewport::ShowOverlay(bool inShowOverlay)
+	void Viewport::SetWindowFullScreen(int flags)
 	{
-		m_ShowOverlay = inShowOverlay;
+		SDL_SetWindowFullscreen(m_Window, flags);
 	}
 
-
-	void Viewport::SetOverlayPNG(int inIndex, void* inData, const Rect& inImageRect)
-	{
-		if (inIndex >= static_cast<int>(m_OverlayList.size()))
-			m_OverlayList.resize(inIndex + 1);
-
-		Overlay& overlay = m_OverlayList[inIndex];
-
-		if (overlay.m_Texture != nullptr)
-			SDL_DestroyTexture(overlay.m_Texture);
-
-		unsigned int mask_r = 0x000000ff;
-		unsigned int mask_g = 0x0000ff00;
-		unsigned int mask_b = 0x00ff0000;
-		unsigned int mask_a = 0xff000000;
-
-		int depth = 32;
-		int pitch = inImageRect.m_Dimensions.m_Width * 4;
-
-		SDL_Surface* surface = SDL_CreateRGBSurfaceFrom(inData, inImageRect.m_Dimensions.m_Width, inImageRect.m_Dimensions.m_Height, depth, pitch, mask_r, mask_g, mask_b, mask_a);
-
-		overlay.m_Texture = SDL_CreateTextureFromSurface(m_Renderer, surface);
-		overlay.m_Rect = inImageRect;
-
-		SDL_FreeSurface(surface);
+	SDL_Renderer* Viewport::GetRenderer() {
+		return m_Renderer;
 	}
 
 
@@ -180,9 +143,6 @@ namespace Foundation
 	{
 		if (m_RenderTarget != nullptr)
 			SDL_SetRenderTarget(m_Renderer, m_RenderTarget);
-
-		SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
-		SDL_RenderClear(m_Renderer);
 
 		for (auto text_field : m_ManagedResources)
 			text_field->Begin();
@@ -197,36 +157,11 @@ namespace Foundation
 		if (m_RenderTarget != nullptr)
 		{
 			SDL_SetRenderTarget(m_Renderer, nullptr);
-
-			if (m_ShowOverlay)
-			{
-				for (const auto& overlay : m_OverlayList)
-				{
-					SDL_Rect overlay_destination_rect = {
-						overlay.m_Rect.m_Position.m_X,
-						overlay.m_Rect.m_Position.m_Y,
-						overlay.m_Rect.m_Dimensions.m_Width,
-						overlay.m_Rect.m_Dimensions.m_Height
-					};
-
-					SDL_RenderCopy(m_Renderer, overlay.m_Texture, nullptr, &overlay_destination_rect);
-				}
-			}
+			SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, 255);
+			SDL_RenderClear(m_Renderer);
 
 			SDL_Rect client_destination_rect = { m_ClientX, m_ClientY, m_ClientResolutionX, m_ClientResolutionY };
 			SDL_RenderCopy(m_Renderer, m_RenderTarget, nullptr, &client_destination_rect);
-		}
-
-		if (m_FadeValue < 1.0f)
-		{
-			Extent dimensions;
-
-			SDL_GetWindowSize(m_Window, &dimensions.m_Width, &dimensions.m_Height);
-
-			SDL_SetRenderDrawColor(m_Renderer, 0, 0, 0, static_cast<unsigned char>(255.0f * (1.0f - m_FadeValue)));
-			SDL_Rect rect = { 0, 0, dimensions.m_Width, dimensions.m_Height };
-			SDL_SetRenderDrawBlendMode(m_Renderer, SDL_BLENDMODE_BLEND);
-			SDL_RenderFillRect(m_Renderer, &rect);
 		}
 
 		SDL_RenderPresent(m_Renderer);

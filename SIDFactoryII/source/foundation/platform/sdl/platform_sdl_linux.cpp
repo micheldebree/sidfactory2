@@ -133,12 +133,6 @@ namespace Foundation
 	}
 
 
-	std::string PlatformSDLLinux::Storage_GetOverlaysHomePath() const
-	{
-		return GetResourcePath("overlay");
-	}
-
-
 	std::string PlatformSDLLinux::Storage_GetColorSchemesHomePath() const
 	{
 		return GetResourcePath("color_schemes");

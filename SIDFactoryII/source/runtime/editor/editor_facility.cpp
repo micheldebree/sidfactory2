@@ -1,4 +1,5 @@
 #include "runtime/editor/editor_facility.h"
+#include "SDL_video.h"
 #include "foundation/graphics/textfield.h"
 #include "foundation/graphics/viewport.h"
 #include "foundation/input/keyboard.h"
@@ -17,7 +18,6 @@
 #include "runtime/editor/driver/driver_utils.h"
 #include "runtime/editor/editor_types.h"
 #include "runtime/editor/keys/keyhook_setup.h"
-#include "runtime/editor/overlay_control.h"
 #include "runtime/editor/packer/packer.h"
 #include "runtime/editor/screens/screen_base.h"
 #include "runtime/editor/screens/screen_convert.h"
@@ -53,6 +53,7 @@
 #include "foundation/base/assert.h"
 
 using namespace Foundation;
+using namespace Editor;
 using namespace Emulation;
 using namespace Utility;
 using namespace Utility::Config;
@@ -67,7 +68,7 @@ namespace Editor
 		, m_IsDone(false)
 		, m_CurrentScreen(nullptr)
 		, m_RequestedScreen(nullptr)
-		, m_FlipOverlayState(false)
+		, m_IsFullScreen(false)
 		, m_SelectedColorScheme(0)
 	{
 
@@ -80,6 +81,7 @@ namespace Editor
 		// Configure editor
 		auto color_scheme_names = GetConfigurationValues<ConfigValueString>(config, "ColorScheme.Name", {});
 		auto color_scheme_filenames = GetConfigurationValues<ConfigValueString>(config, "ColorScheme.Filename", {});
+		ApplyFullScreenSetting(GetSingleConfigurationValue<ConfigValueInt>(config, "Window.FullScreen", 0));
 
 		if (color_scheme_names.size() == color_scheme_filenames.size())
 		{
@@ -139,9 +141,6 @@ namespace Editor
 		// Allocate empty Driver Info class
 		m_DriverInfo = std::make_shared<DriverInfo>();
 
-		// Create overlay control
-		m_OverlayControl = std::make_unique<OverlayControl>(inViewport);
-
 		// Create screens
 		m_IntroScreen = std::make_unique<ScreenIntro>(
 			m_Viewport,
@@ -195,7 +194,7 @@ namespace Editor
 			[&]() {	m_DiskScreen->SetMode(ScreenDisk::SaveInstrument); m_DiskScreen->SetSuggestedFileName(m_LastSF2PathAndFilename);  RequestScreen(m_DiskScreen.get()); },
 			[&]() { OnQuickSave(m_EditScreen.get()); },
 			[&](unsigned short inDestinationAddress, unsigned char inFirstZeroPage) { OnPack(m_EditScreen.get(), inDestinationAddress, inFirstZeroPage); },
-			[&]() { m_FlipOverlayState = true; },
+			[&]() { ToggleFullScreen(); },
 			[&](unsigned int inReconfigureOption) { Reconfigure(inReconfigureOption); });
 
 		//
@@ -316,11 +315,6 @@ namespace Editor
 			m_CurrentScreen->Update(inDeltaTicks);
 		}
 
-		// Handle overlay flip
-		UpdateOverlayEnableDisable();
-
-		// Update overlay
-		m_OverlayControl->Update(inDeltaTicks);
 
 		// Update cursor control
 		m_CursorControl.Update(inDeltaTicks);
@@ -368,7 +362,7 @@ namespace Editor
 
 	void EditorFacility::OnWindowResized()
 	{
-		m_OverlayControl->OnWindowResized();
+    	// TODO: does nothing
 	}
 
 
@@ -428,19 +422,17 @@ namespace Editor
 		}
 	}
 
-
-	void EditorFacility::UpdateOverlayEnableDisable()
-	{
-		if (m_FlipOverlayState)
-		{
-			FOUNDATION_ASSERT(m_OverlayControl != nullptr);
-			m_OverlayControl->SetOverlayEnabled(!m_OverlayControl->GetOverlayEnabled());
-
-			m_FlipOverlayState = false;
-		}
 	}
 
+	void EditorFacility::ApplyFullScreenSetting(bool isFullScreen) {
+		m_IsFullScreen = isFullScreen;
+		m_Viewport->SetWindowFullScreen(m_IsFullScreen ?  SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+	}
 
+	void EditorFacility::ToggleFullScreen()
+	{
+		ApplyFullScreenSetting(!m_IsFullScreen);
+	}
 	//------------------------------------------------------------------------------------------------------------
 
 	void EditorFacility::RequestScreen(ScreenBase* inRequestedScreen)
@@ -553,8 +545,6 @@ namespace Editor
 				// Flush copy/paste
 				CopyPaste::Instance().Flush();
 
-				// Notify overlay
-				m_OverlayControl->OnChange(*m_DriverInfo);
 			}
 
 			delete[] static_cast<char*>(data);
@@ -648,9 +638,6 @@ namespace Editor
 
 					// Flush copy/paste
 					CopyPaste::Instance().Flush();
-
-					// Notify overlay
-					m_OverlayControl->OnChange(*m_DriverInfo);
 
 					inSuccesfullConversionAction();
 					return;
@@ -922,8 +909,6 @@ namespace Editor
 				// Flush copy/paste
 				CopyPaste::Instance().Flush();
 
-				// Notify overlay
-				m_OverlayControl->OnChange(*m_DriverInfo);
 
 				return true;
 			}
@@ -1198,5 +1183,3 @@ namespace Editor
 
 		return converters;
 	}
-
-}

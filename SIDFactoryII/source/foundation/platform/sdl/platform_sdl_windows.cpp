@@ -34,7 +34,7 @@ namespace Foundation
 	}
 
 	//---------------------------------------------------------------------------------------
-    
+
 	unsigned int PlatformSDLWindows::Storage_GetLogicalDrivesCount() const
 	{
 		return static_cast<unsigned int>(m_LogicalDrivesList.size());
@@ -59,7 +59,7 @@ namespace Foundation
             fs::current_path(inPath, ec);
             if (!ec)
 				return true;
-			
+
             fs::current_path(previous_path, ec);
         }
 
@@ -124,13 +124,6 @@ namespace Foundation
 	}
 
 
-	std::string PlatformSDLWindows::Storage_GetOverlaysHomePath() const
-	{
-		fs::path overlays_path = fs::path(m_ApplicationHomePath) / "overlay" / "";
-		return overlays_path.string();
-	}
-
-
 	std::string PlatformSDLWindows::Storage_GetColorSchemesHomePath() const
 	{
 		fs::path color_schemes_path = fs::path(m_ApplicationHomePath) / "color_schemes" / "";
@@ -143,5 +136,4 @@ namespace Foundation
 		return inPath;
 	}
 }
-#endif 
-
+#endif

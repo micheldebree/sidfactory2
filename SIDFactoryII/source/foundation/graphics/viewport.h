@@ -6,7 +6,6 @@
 
 #include "foundation/base/types.h"
 #include "foundation/graphics/color.h"
-#include "utils/bit_array.h"
 
 namespace Foundation
 {
@@ -38,9 +37,7 @@ namespace Foundation
 		void SetFadeValue(float inFadeValue);
 		void SetAdditionTitleInfo(const std::string& inAdditionTitleInfo);
 
-		void ShowOverlay(bool inShowOverlay);
-		void SetOverlayPNG(int inIndex, void* inData, const Rect& inImageRect);
-
+		void SetWindowFullScreen(int flags);
 		void Begin();
 		void End();
 
@@ -48,23 +45,16 @@ namespace Foundation
 		DrawField* CreateDrawField(unsigned inWidth, unsigned int inHeight, int inX, int inY);
 		Image* CreateImageFromFile(const std::string& inFileName);
 		Image* CreateImageFromARGBData(void* inData, unsigned int inWidth, unsigned int inHeight, bool inIncludeAlphaChannel);
+		
+		SDL_Renderer* GetRenderer();
 
 		void Destroy(IManaged* inManagedResource);
 
 		void SetUserColor(unsigned char inUserColorIndex, unsigned int inARGB);
 		const Palette& GetPalette() const;
 
-	private:
-		struct Overlay
-		{
-			Overlay()
-				: m_Texture(nullptr)
-			{
-			}
 
-			SDL_Texture* m_Texture;
-			Rect m_Rect;
-		};
+	private:
 
 		const int m_ClientResolutionX;
 		const int m_ClientResolutionY;
@@ -73,15 +63,11 @@ namespace Foundation
 		int m_ClientX;
 		int m_ClientY;
 
-		bool m_ShowOverlay;
-		float m_FadeValue;
-
 		Palette m_Palette;
 
 		SDL_Window* m_Window;
 		SDL_Renderer* m_Renderer;
 		SDL_Texture* m_RenderTarget;
-		std::vector<Overlay> m_OverlayList;
 
 		std::string m_Caption;
 

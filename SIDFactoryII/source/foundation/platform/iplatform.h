@@ -13,8 +13,8 @@ namespace Foundation
 	protected:
 		IPlatform() { }
 
-	public: 
-		
+	public:
+
 		IPlatform(IPlatform& inOther)  = delete;
 		IPlatform(IPlatform&& inOther)  = delete;
 		IPlatform(const IPlatform& inOther)  = delete;
@@ -24,7 +24,7 @@ namespace Foundation
 		virtual std::shared_ptr<IMutex> CreateMutex() = 0;
 
 		virtual const std::string& GetName() const = 0;
-        
+
 		virtual unsigned int Storage_GetLogicalDrivesCount() const = 0;
 		virtual std::string Storage_GetLogicalDriveName(unsigned int inLogicalDrive) const = 0;
 
@@ -43,9 +43,6 @@ namespace Foundation
 
 		// Get the path to the folder holding drivers
 		virtual std::string Storage_GetDriversHomePath() const = 0;
-
-		// Get the path to the folder holding overlay images
-		virtual std::string Storage_GetOverlaysHomePath() const = 0;
 
 		// Get the path to the folder holding color schemes
 		virtual std::string Storage_GetColorSchemesHomePath() const = 0;

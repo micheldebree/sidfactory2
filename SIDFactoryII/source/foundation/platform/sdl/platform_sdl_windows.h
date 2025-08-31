@@ -24,7 +24,6 @@ namespace Foundation
 		virtual std::string Storage_GetHomePath() const override;
 		virtual std::string Storage_GetConfigHomePath() const override;
 		virtual std::string Storage_GetDriversHomePath() const override;
-		virtual std::string Storage_GetOverlaysHomePath() const override;
 		virtual std::string Storage_GetColorSchemesHomePath() const override;
 
 		virtual std::string OS_ParsePath(const std::string& inPath) const;
