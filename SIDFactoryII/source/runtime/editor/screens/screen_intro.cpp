@@ -14,6 +14,8 @@
 
 namespace Editor
 {
+	using namespace Utility;
+
 	ScreenIntro::ScreenIntro(
 		Foundation::Viewport* inViewport,
 		Foundation::TextField* inMainTextField,
@@ -73,32 +75,36 @@ namespace Editor
 
 		const auto& dimensions = m_MainTextField->GetDimensions();
 
-		const int credits_margin = 25;
 		const int credits_y = 26;
 		const int driver_info_y = 41;
 		const int continue_info_y = 43;
 		const int build_y = dimensions.m_Height - 1;
 		const int build_x = dimensions.m_Width;
-		const int block_width = dimensions.m_Width >> 1;
+		const int num_blocks = 3;
+		const int block_width = dimensions.m_Width / (num_blocks + 1);
+		const int credits_margin = (dimensions.m_Width - (block_width * num_blocks)) >> 1;
+		// screen is designed for 16 pixel high font, so we need to scale for other fonts
+		const int font_height_scale_factor =  16 / m_Viewport->GetFont().height;
 
-		const Foundation::Rect credits_rect_left({ { credits_margin, credits_y }, { block_width - credits_margin, driver_info_y - credits_y - 1 } });
-		const Foundation::Rect credits_rect_right({ { block_width, credits_y }, { block_width - credits_margin, driver_info_y - credits_y - 1 } });
+		const auto OutputBlock = [&](const int inBlock, const std::string& InText)
+		{
+			const Foundation::Rect rect({ { credits_margin + (inBlock * block_width), credits_y * font_height_scale_factor }, { block_width, driver_info_y - credits_y - 1 } });
+			m_MainTextField->PrintAligned(rect, Foundation::WrappedString(InText, block_width), Foundation::TextField::HorizontalAlignment::Center);
+		};
 
-		const Foundation::WrappedString credits_text_left("Programming by:\nThomas Egeskov Petersen\nJens-Christian Huus\nMichel de Bree\n \nAdditional design and suggestions by:\n Torben Korgaard Hansen\nThomas Laurits Mogensen\nThomas Bendt", block_width);
-		const Foundation::WrappedString credits_text_right("reSID-fp Engine by:\nDag Lem\nAntti S. Lankila \n \npicoPNG by:\nLode Vandevenne\n \nghc::filesystem for c++11 by:\nSteffen Schumann\n \nminiz by:\nRich Geldreich", block_width);
-
-		m_MainTextField->PrintAligned(credits_rect_left, credits_text_left, Foundation::TextField::HorizontalAlignment::Center);
-		m_MainTextField->PrintAligned(credits_rect_right, credits_text_right, Foundation::TextField::HorizontalAlignment::Center);
+		OutputBlock(0, "Programming by:\nThomas Egeskov Petersen\nJens-Christian Huus\nMichel de Bree\nThomas Jansson\n \nAdditional design and suggestions by:\n Torben Korgaard Hansen\nThomas Laurits Mogensen\nThomas Bendt");
+		OutputBlock(1, "reSID-fp Engine by:\nDag Lem\nAntti S. Lankila \n \npicoPNG by:\nLode Vandevenne\n \nminiz by:\nRich Geldreich");
+		OutputBlock(2, "ghc::filesystem for c++11 by:\nSteffen Schumann\n \nRtMidi by:\nGary P. Scavone");
 
 		if (m_DriverInfo->IsValid())
 		{
 			const std::string& driver_name = m_DriverInfo->GetDescriptor().m_DriverName;
-			PrintCenteredText(driver_info_y, "Driver loaded: " + driver_name);
+			PrintCenteredText(driver_info_y * font_height_scale_factor, "Driver loaded: " + driver_name);
 		}
 		else
-			PrintCenteredText(driver_info_y, "Driver has not been loaded!");
+			PrintCenteredText(driver_info_y * font_height_scale_factor, "Driver has not been loaded!");
 
-		PrintCenteredText(continue_info_y, "Press SPACE to continue, or F10 for disk menu!");
+        PrintCenteredText(continue_info_y * font_height_scale_factor, "Press SPACE to continue or F10 for disk menu!");
 
 		m_MainTextField->Print(build_x - static_cast<int>(build_string.length()), build_y, Foundation::Color::Grey, build_string);
 	}

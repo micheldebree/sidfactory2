@@ -40,13 +40,13 @@ binaries](https://github.com/Chordian/sidfactory2/workflows/Build%20windows%20bi
 binaries](https://github.com/Chordian/sidfactory2/workflows/Build%20macOS%20binaries/badge.svg)
 ![Build linux binaries](https://github.com/Chordian/sidfactory2/workflows/Build%20linux%20binaries/badge.svg)
 
-Please report issues in our [issue tracker](https://github.com/Chordian/sidfactory2/issues).
-
 ![Commits since last
 release](https://img.shields.io/github/commits-since/chordian/sidfactory2/release-20231002)
 
 ### Next release
 
+- Added [#4](https://github.com/micheldebree/sidfactory2/issues/4) Support for C64 font.
+  This can be selected with the new `Window.Font` configuration option.
 - Added [#190](https://github.com/Chordian/sidfactory2/issues/190)
   Configuration options
   for setting the limits of rastertime usage used to color frames orange or red in
