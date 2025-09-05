@@ -2,7 +2,7 @@
 
 TARGET=x86_64-apple-macos10.09
 
-BUILD_NR=$(shell git show --no-patch --format='%cs').$(shell git rev-parse --short HEAD)
+BUILD_NR=$(shell git show --no-patch --format='%cs').yth.$(shell git rev-parse --short HEAD)
 BUILD_NR_TARGET=$(BUILD_NR).$(TARGET)
 
 # Sources

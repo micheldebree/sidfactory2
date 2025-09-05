@@ -25,7 +25,7 @@
 PLATFORM=LINUX
 
 APP_NAME=SIDFactoryII
-BUILD_NR= $(shell git show --no-patch --format='%cs').$(shell git rev-parse --short HEAD)
+BUILD_NR= $(shell git show --no-patch --format='%cs').yth.$(shell git rev-parse --short HEAD)
 ARTIFACTS_FOLDER=artifacts
 DIST_FOLDER=$(ARTIFACTS_FOLDER)/$(APP_NAME)_$(PLATFORM)_$(BUILD_NR)
 
