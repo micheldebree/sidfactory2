@@ -14,8 +14,6 @@
 
 namespace Editor
 {
-	using namespace Utility;
-
 	ScreenIntro::ScreenIntro(
 		Foundation::Viewport* inViewport,
 		Foundation::TextField* inMainTextField,
