@@ -37,6 +37,8 @@ This is a fork from the official repository to make it easier for me to do quick
 test releases with previews for new functionality. Some features might not make it
 into the official version, and some might.
 
+I am a macOS user myself, so this fork is only tested on macOS.
+
 ![Last commit](https://img.shields.io/github/last-commit/chordian/sidfactory2)
 ![Build windows
 binaries](https://github.com/Chordian/sidfactory2/workflows/Build%20windows%20binaries/badge.svg)
