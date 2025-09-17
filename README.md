@@ -1,8 +1,7 @@
 # SID Factory II
 
 SID Factory II is a cross-platform editor for composing music that will work on
-a Commodore 64. It uses the reSID emulator and is currently in open BETA. You
-can download binary release builds from [here](http://blog.chordian.net/sf2/).
+a Commodore 64. It uses the reSID emulator.
 To build from source, have a look [here](DEVELOPMENT.md).
 
 Main programming by Thomas Egeskov Petersen, with assistance by Jens-Christian
@@ -39,15 +38,12 @@ into the official version, and some might.
 
 I am a macOS user myself, so this fork is only tested on macOS.
 
-![Last commit](https://img.shields.io/github/last-commit/chordian/sidfactory2)
+![Last commit](https://img.shields.io/github/last-commit/micheldebree/sidfactory2)
 ![Build windows
-binaries](https://github.com/Chordian/sidfactory2/workflows/Build%20windows%20binaries/badge.svg)
+binaries](https://github.com/micheldebree/sidfactory2/workflows/Build%20windows%20binaries/badge.svg)
 ![Build macOS
-binaries](https://github.com/Chordian/sidfactory2/workflows/Build%20macOS%20binaries/badge.svg)
-![Build linux binaries](https://github.com/Chordian/sidfactory2/workflows/Build%20linux%20binaries/badge.svg)
-
-![Commits since last
-release](https://img.shields.io/github/commits-since/chordian/sidfactory2/release-20231002)
+binaries](https://github.com/micheldebree/sidfactory2/workflows/Build%20macOS%20binaries/badge.svg)
+![Build linux binaries](https://github.com/micheldebree/sidfactory2/workflows/Build%20linux%20binaries/badge.svg)
 
 ### Next release
 
