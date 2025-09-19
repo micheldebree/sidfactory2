@@ -134,7 +134,7 @@ $(DMG_RAW): $(DMG_CONTENTS)
 	rm -rf "$<"
 
 # https://developer.apple.com/library/archive/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html
-$(ICONS): icon.svg $(ARTIFACTS_FOLDER)
+$(ICONS): ../resources/logo.svg $(ARTIFACTS_FOLDER)
 	mkdir -p $(ICONSET)
 	rsvg-convert -w 16 -h 16 -f png -o $(ICONSET)/icon_16x16.png $<
 	rsvg-convert -w 32 -h 32 -f png -o $(ICONSET)/icon_32x32.png $<
