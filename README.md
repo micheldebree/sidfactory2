@@ -47,7 +47,8 @@ binaries](https://github.com/micheldebree/sidfactory2/workflows/Build%20macOS%20
 
 ### Next release
 
-- SDL2 upgraded to 2.32.10 (Windows and macOS)
+- SDL2 upgraded to 2.32.10 (Windows and macOS, thanks to
+  [realdmx](https://github.com/realdmx) for the Windows upgrade)
 - Added [#4](https://github.com/micheldebree/sidfactory2/issues/4) Support for C64 font.
   This can be selected with the new `Window.Font` configuration option.
 - Added [#190](https://github.com/Chordian/sidfactory2/issues/190)
