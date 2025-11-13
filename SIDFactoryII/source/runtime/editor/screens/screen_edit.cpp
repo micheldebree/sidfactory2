@@ -2224,8 +2224,10 @@ namespace Editor
 		// Get the write order and cycle timing from the driver
 		const auto SIDWriteInfoList = DriverUtils::GetSIDWriteInformationFromDriver(*m_CPUMemory, *m_DriverInfo);
 
+#ifdef DEBUG_ASID
 		for(const auto& SIDWriteInfo : SIDWriteInfoList)
 			Utility::Logging::instance().Info("Write to address $d4%02x at cycle offset: %02x", SIDWriteInfo.m_AddressLow, SIDWriteInfo.m_CycleOffset);
+#endif
 
 		m_ExecutionHandler->TellSIDWriteOrderInfo(SIDWriteInfoList);
 		m_ExecutionHandler->TellSIDEnvironment();

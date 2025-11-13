@@ -6,7 +6,7 @@ can download binary release builds from [here](http://blog.chordian.net/sf2/).
 To build from source, have a look [here](DEVELOPMENT.md).
 
 Main programming by Thomas Egeskov Petersen, with assistance by Jens-Christian
-Huus and Michel de Bree.
+Huus, Michel de Bree and Thomas Jansson.
 
 Notable features:
 
@@ -28,6 +28,7 @@ Notable features:
 - Includes demo tunes to learn from.
 - Cross platform: Windows, macOS (Intel and ARM) and Linux versions.
 - Configurable settings, shortcuts and keyboard layout
+- ASID support, for playback on real SID hardware interfaces/instruments.
 - Open source
 
 ![SID Factory II screenshot](screenshot.png)
