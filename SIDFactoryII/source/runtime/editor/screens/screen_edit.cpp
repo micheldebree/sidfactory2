@@ -243,6 +243,12 @@ namespace Editor
 		m_ExecutionHandler->QueueStop();
 		SetStatusPlaying(false);
 
+		// Send the ASID information, if needed
+		if (m_ExecutionHandler->GetOutputDevice() == ExecutionHandler::OutputDevice::ASID)
+		{
+			this->SendASIDinformation();
+		}
+
 		m_PlaybackCurrentEventPos = -1;
 
 		// Reset edit state
@@ -606,14 +612,7 @@ namespace Editor
 
 		if (device == ExecutionHandler::OutputDevice::ASID)
 		{
-			// Get the write order and cycle timing from the driver
-			const auto SIDWriteInfoList = DriverUtils::GetSIDWriteInformationFromDriver(*m_CPUMemory, *m_DriverInfo);
-
-			for(const auto& SIDWriteInfo : SIDWriteInfoList)
-				Utility::Logging::instance().Info("Write to address $d4%02x at cycle offset: %02x", SIDWriteInfo.m_AddressLow, SIDWriteInfo.m_CycleOffset);
-
-			m_ExecutionHandler->TellSIDWriteOrderInfo(SIDWriteInfoList);
-			m_ExecutionHandler->TellSIDEnvironment();
+			this->SendASIDinformation();
 		}
 
 	}
@@ -2218,6 +2217,18 @@ namespace Editor
 			const std::string text = " Sequence " + EditorUtils::ConvertToHexValue(inSequenceIndex, m_DisplayState.IsHexUppercase()) + " referenced " + std::to_string(sequence_index_use_count[inSequenceIndex]) + (usage_count_plural ? " times." : " time.");
 			SetStatusBarMessage(text, 5000);
 		}
+	}
+
+	void ScreenEdit::SendASIDinformation()
+	{
+		// Get the write order and cycle timing from the driver
+		const auto SIDWriteInfoList = DriverUtils::GetSIDWriteInformationFromDriver(*m_CPUMemory, *m_DriverInfo);
+
+		for(const auto& SIDWriteInfo : SIDWriteInfoList)
+			Utility::Logging::instance().Info("Write to address $d4%02x at cycle offset: %02x", SIDWriteInfo.m_AddressLow, SIDWriteInfo.m_CycleOffset);
+
+		m_ExecutionHandler->TellSIDWriteOrderInfo(SIDWriteInfoList);
+		m_ExecutionHandler->TellSIDEnvironment();
 	}
 }
 

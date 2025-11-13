@@ -174,6 +174,8 @@ namespace Editor
 
 		void ShowSequenceUsageCount(unsigned char inSequenceIndex);
 
+		void SendASIDinformation();
+
 		template<typename EXECUTION_CALLBACK>
 		void StartSongsDialogWithSelectionExecution(const std::string& headline, EXECUTION_CALLBACK&& inExecutionCallback);
 		template<typename EXECUTION_CALLBACK>
