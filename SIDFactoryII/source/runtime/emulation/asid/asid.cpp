@@ -127,7 +127,7 @@ namespace Emulation
 		const int speedMultiplier = 1; // 1x
 
 		// Time between two frames
-		const int frameDeltaUs = isPAL ? (long)1000000*63*312/EMULATION_CYCLES_PER_SECOND_PAL : (long)1000000*65*263/EMULATION_CYCLES_PER_SECOND_NTSC;
+		const int frameDeltaUs = isPAL ? (uint64_t)1000000*63*312/EMULATION_CYCLES_PER_SECOND_PAL : (uint64_t)1000000*65*263/EMULATION_CYCLES_PER_SECOND_NTSC;
 
 		// Sysex start data for an ASID message
 		ASidOutBuffer[index++] = 0xf0;
