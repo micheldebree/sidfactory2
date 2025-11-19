@@ -8,6 +8,12 @@
 #include "foundation/input/keyboard.h"
 #include "foundation/input/mouse.h"
 #include "utils/usercolors.h"
+#include "utils/configfile.h"
+#include "utils/config/configtypes.h"
+#include "utils/global.h"
+#include <ctime>
+#include <cstdio>
+#include <cstring>
 
 using namespace Utility;
 
@@ -122,6 +128,33 @@ namespace Editor
 				false
 			);
 		m_ComponentsManager->AddComponent(m_TextInputComponentCopyright);
+
+		// Prefill the author field with the author from the config file
+		const ConfigFile& configFile = Global::instance().GetConfig();
+		std::string defaultAuthor = "";
+		std::string author = Utility::GetSingleConfigurationValue<Utility::Config::ConfigValueString>(configFile, "Export.Author", defaultAuthor);
+		for (size_t i = 0; i < author.size() && i < static_cast<size_t>(m_MessageMaxLength); ++i)
+		{
+			(*m_TextDataBufferAuthor)[i] = static_cast<unsigned char>(author[i]);
+		}
+		if (author.size() < static_cast<size_t>(m_MessageMaxLength))
+		{
+			(*m_TextDataBufferAuthor)[author.size()] = 0;
+		}
+
+		// Prefill the copyright field with the current year
+		std::time_t t = std::time(nullptr);
+		std::tm* now = std::localtime(&t);
+		char year_str[5];
+		std::snprintf(year_str, sizeof(year_str), "%04d", now->tm_year + 1900);
+		for (size_t i = 0; i < std::strlen(year_str) && i < static_cast<size_t>(m_MessageMaxLength); ++i)
+		{
+			(*m_TextDataBufferCopyright)[i] = static_cast<unsigned char>(year_str[i]);
+		}
+		if (std::strlen(year_str) < static_cast<size_t>(m_MessageMaxLength))
+		{
+			(*m_TextDataBufferCopyright)[std::strlen(year_str)] = 0;
+		}
 
 		const int button_width = 10;
 
