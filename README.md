@@ -47,15 +47,19 @@ binaries](https://github.com/micheldebree/sidfactory2/workflows/Build%20macOS%20
 
 ### Next release
 
+- Configure default author name with configuration option "Export.Author"
+- Author and copyright year are prefilled in the packer dialog
 - SDL2 upgraded to 2.32.10 (Windows and macOS, thanks to
   [realdmx](https://github.com/realdmx) for the Windows upgrade)
-- Added [#4](https://github.com/micheldebree/sidfactory2/issues/4) Support for C64 font.
+- Added [#4](https://github.com/micheldebree/sidfactory2/issues/4) Support for
+  C64 font.
   This can be selected with the new `Window.Font` configuration option.
 - Added [#190](https://github.com/Chordian/sidfactory2/issues/190)
   Configuration options
   for setting the limits of rastertime usage used to color frames orange or red in
   the flightrecorder.
   `Visualizer.CPU.Medium.Rasterlines` and `Visualizer.CPU.High.Rasterlines`
-- Added: [#183](https://github.com/Chordian/sidfactory2/issues/183) Toggle fullscreen with ALT-Enter
-- Added: [#183](https://github.com/Chordian/sidfactory2/issues/183) Config option `Window.FullScreen`
-  to start in fullscreen by default
+- Added: [#183](https://github.com/Chordian/sidfactory2/issues/183) Toggle
+  fullscreen with ALT-Enter
+- Added: [#183](https://github.com/Chordian/sidfactory2/issues/183) Config
+  option `Window.FullScreen` to start in fullscreen by default
