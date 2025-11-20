@@ -1,6 +1,8 @@
 # Makefile for macOS version
 
-TARGET=x86_64-apple-macos10.09
+# The ULMO compression used in DMG target is only supported from 10.15
+# So we might aswell compile for that version
+TARGET=x86_64-apple-macos10.15
 
 BUILD_NR=$(shell git show --no-patch --format='%cs').yth.$(shell git rev-parse --short HEAD)
 BUILD_NR_TARGET=$(BUILD_NR).$(TARGET)
@@ -17,10 +19,8 @@ APP_NAME=SIDFactoryII
 ARTIFACTS_FOLDER=artifacts
 EXE=$(ARTIFACTS_FOLDER)/$(APP_NAME)
 APP=$(ARTIFACTS_FOLDER)/$(APP_NAME).app
-DMG=$(ARTIFACTS_FOLDER)/$(APP_NAME)_macOS_$(BUILD_NR).dmg
-DMG_RAW=$(ARTIFACTS_FOLDER)/$(APP_NAME)_macOS_$(BUILD_NR)-RAW.dmg
+DMG=$(ARTIFACTS_FOLDER)/$(APP_NAME)_$(BUILD_NR).dmg
 DMG_CONTENTS=$(ARTIFACTS_FOLDER)/dmg
-DMG_TITLE=$(APP_NAME)
 DMG_SIZE=25600
 ICONSET=$(ARTIFACTS_FOLDER)/$(APP_NAME).iconset
 ICONS=$(ARTIFACTS_FOLDER)/$(APP_NAME).icns
@@ -77,15 +77,6 @@ universal: | clean $(EXE)
 .PHONY: app
 app: $(APP)
 
-# ----------------------------------------------------
-
-# Step 1: "make raw" to create a "raw" DMG
-.PHONY: raw
-raw: $(DMG_RAW)
-
-# Step 2: Mount tmp.dmg, lay it out manually, unmount
-
-# Step 3: "make dmg" to finalize the DMG
 .PHONY: dmg
 dmg: $(DMG)
 
@@ -106,32 +97,20 @@ $(APP): universal $(ICONS)
 	mv $(ICONS) $(APP)/Contents/Resources
 	gsed -i 's/{VERSION}/$(BUILD_NR)/g' $(APP)/Contents/Info.plist
 
-# Make final distribution DMG
-$(DMG):
-	DMG=$(DMG) \
-  APP_NAME=$(APP_NAME) \
-	DMG_TITLE=$(DMG_TITLE) \
-	DMG_RAW=$(DMG_RAW) \
-	./make_dmg.sh
-
 # Collect the contents of the DMG
-$(DMG_CONTENTS): $(APP) $(EXE_SF2C) $(ARTIFACTS_FOLDER)/keys.html
+$(DMG_CONTENTS): $(APP) 
 	rm -rf $(DMG_CONTENTS)
 	mkdir -p $(DMG_CONTENTS)/$(APP_NAME)
 	mv $(APP) $(DMG_CONTENTS)
 	cp -r $(DOCS)/ $(DMG_CONTENTS)/$(APP_NAME)/documentation
 	cp $(PROJECT_ROOT)/COPYING $(DMG_CONTENTS)
-	mv $(ARTIFACTS_FOLDER)/keys.html $(DMG_CONTENTS)/$(APP_NAME)/documentation
 	cp -r Install.txt $(DMG_CONTENTS)
 	cp -r $(PROJECT_ROOT)/music/ ${DMG_CONTENTS}/$(APP_NAME)/music
 	cp -r $(PROJECT_ROOT)/drivers ${DMG_CONTENTS}/$(APP_NAME)/drivers
 	ln -s /Applications $(DMG_CONTENTS)/Applications
 
-# Make a temporary DMG. This needs to be laid out nicely by hand before building the final DMG.
-$(DMG_RAW): $(DMG_CONTENTS)
-	rm -f $(DMG_RAW)
-	hdiutil create -srcfolder "$<" -volname "$(DMG_TITLE)" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format UDRW -size $(DMG_SIZE)k $@
-	rm -rf "$<"
+$(DMG): $(DMG_CONTENTS)
+	hdiutil create -srcfolder "$<" -volname "$(APP_NAME)" -fs HFS+ -fsargs "-c c=64,a=16,e=16" -format ULMO -imagekey -zlib-level=9 -size $(DMG_SIZE)k -ov $@
 
 # https://developer.apple.com/library/archive/documentation/GraphicsAnimation/Conceptual/HighResolutionOSX/Optimizing/Optimizing.html
 $(ICONS): ../resources/logo.svg $(ARTIFACTS_FOLDER)
@@ -147,10 +126,6 @@ $(ICONS): ../resources/logo.svg $(ARTIFACTS_FOLDER)
 	cp $(ICONSET)/icon_512x512.png $(ICONSET)/icon_256x256@2x.png
 	iconutil -c icns -o $@ $(ICONSET)
 	rm -rf $(ICONSET)
-
-# Create html from markdown documentation
-$(ARTIFACTS_FOLDER)/%.html: %.md
-	pandoc $< -c github.css --toc --standalone --self-contained --metadata title="$(APP_NAME) Keys (macOS)" -o $@
 
 $(ARTIFACTS_FOLDER):
 	mkdir -p $@

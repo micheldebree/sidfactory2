@@ -7,9 +7,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install extra build tooling
-        run: brew install gnu-sed librsvg pandoc
+        run: brew install gnu-sed librsvg
       - name: Build binaries
-        run: (cd macos && make raw)
+        run: (cd macos && make dmg)
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
