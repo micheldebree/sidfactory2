@@ -623,6 +623,9 @@
     <ClCompile Include="source\runtime\editor\overlays\overlay_flightrecorder.cpp">
       <Filter>source</Filter>
     </ClCompile>
+    <ClCompile Include="source\runtime\execution\RtMidi.cpp">
+      <Filter>source\runtime\execution</Filter>
+     </CLCompile>
     <ClCompile Include="source\runtime\editor\visualizer_components\visualizer_component_pulse_filter_state.cpp">
       <Filter>source</Filter>
     </ClCompile>
@@ -1193,6 +1196,12 @@
     </ClInclude>
     <ClInclude Include="source\runtime\editor\dialog\dialog_move_selection_list.h">
       <Filter>source\runtime\editor\dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="source\runtime\editor\components\component_pulse_filter_visualizer.h" />
+    <ClInclude Include="source\runtime\editor\datasources\datasource_sidregistersbuffer.h" />
+    <ClInclude Include="source\runtime\editor\visualizer_components\visualizer_component_pulse_filter_state.h" />
+    <ClInclude Include="source\runtime\execution\RtMidi.h">
+      <Filter>source\runtime\execution</Filter>
     </ClInclude>
     <ClInclude Include="source\runtime\editor\components\component_pulse_filter_visualizer.h" />
     <ClInclude Include="source\runtime\editor\datasources\datasource_sidregistersbuffer.h" />
