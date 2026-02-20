@@ -5,7 +5,7 @@ a Commodore 64. It uses the reSID emulator.
 To build from source, have a look [here](DEVELOPMENT.md).
 
 Main programming by Thomas Egeskov Petersen, with assistance by Jens-Christian
-Huus and Michel de Bree.
+Huus, Michel de Bree and Thomas Jansson.
 
 Notable features:
 
@@ -26,6 +26,7 @@ Notable features:
 - Includes demo tunes to learn from.
 - Cross platform: Windows, macOS (Intel and ARM) and Linux versions.
 - Configurable settings, shortcuts and keyboard layout
+- ASID support, for playback on real SID hardware interfaces/instruments.
 - Open source
 
 ![SID Factory II screenshot](screenshot.png)
@@ -63,3 +64,7 @@ binaries](https://github.com/micheldebree/sidfactory2/workflows/Build%20macOS%20
   fullscreen with ALT-Enter
 - Added: [#183](https://github.com/Chordian/sidfactory2/issues/183) Config
   option `Window.FullScreen` to start in fullscreen by default
+- Added: [#28](https://github.com/Chordian/sidfactory2/issues/28) ASID support!
+  Use real hardware that supports the ASID protocol (for example the TherapSID)
+- Added: Config option `Playback.ASID.MidiInterface` to select the MIDI
+  interface for ASID playback
