@@ -118,6 +118,7 @@ clean:
 	rm -rf $(ARTIFACTS_FOLDER) || true
 
 # Local development specific
+# To run for macOS: make run PLATFORM=MACOS TARGET=DEBUG
 
 .PHONY: run
 run: $(EXE)
